@@ -111,6 +111,10 @@ impl XtensaRust {
 
     /// Parses the version of the Xtensa toolchain.
     pub fn parse_version(arg: &str) -> Result<String, Error> {
+        if std::env::var_os("ESPUP_SKIP_VERSION_PARSE").is_some() {
+            return Ok(arg.to_string());
+        }
+
         debug!("{} Parsing Xtensa Rust version: {}", emoji::DEBUG, arg);
         let re_extended = Regex::new(RE_EXTENDED_SEMANTIC_VERSION).unwrap();
         let re_semver = Regex::new(RE_SEMANTIC_VERSION).unwrap();
